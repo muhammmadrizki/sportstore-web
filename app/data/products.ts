@@ -39,8 +39,9 @@ export const products: Product[] = [
     slug: "mu-keychain",
     name: "MU keychain",
     description:
-      "Stylish and durable keychain featuring the iconic Manchester United crest. Perfect for showing your Red Devils pride wherever you go",
-    imageUrl: "https://link-gambar.com/mu-jacket.jpg",
+      "Stylish and durable keychain featuring the iconic Manchester United crest",
+    imageUrl:
+      "https://mufc-live.cdn.scayle.cloud/images/d067e7984846362835dcbd09ac460fde.jpg?brightness=1&width=584&height=779&quality=70&bg=ffffff",
     price: 1099000,
     createdAt: "2025-08-11T13:50:22.010Z",
     updatedAt: "2025-08-11T13:50:22.010Z",
