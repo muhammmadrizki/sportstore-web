@@ -65,7 +65,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       {/* Main Content */}
       <main className="p-6">
         <h2 className="text-lg mb-6">Store for MAN UTD apparel</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
           {products.map((product: any) => (
             <div
               key={product.id}
