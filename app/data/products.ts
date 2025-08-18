@@ -37,9 +37,8 @@ export const products: Product[] = [
   {
     id: "01K2CPAZ9T9CA2PKSWCEH2085F",
     slug: "mu-keychain",
-    name: "MU keychain",
-    description:
-      "Stylish and durable keychain featuring the iconic Manchester United crest",
+    name: "Manchester United Keychain",
+    description: "Keychain iconic Manchester United",
     imageUrl:
       "https://mufc-live.cdn.scayle.cloud/images/d067e7984846362835dcbd09ac460fde.jpg?brightness=1&width=584&height=779&quality=70&bg=ffffff",
     price: 1099000,
@@ -50,7 +49,7 @@ export const products: Product[] = [
     id: "01K2CPAZDAES4YN4NET3FTH25M",
     slug: "mu-training-wear-short",
     name: "MU training wear short",
-    description: "Official 2025 season short training wear",
+    description: "Official 2025 season training short wear",
     imageUrl:
       "https://mufc-live.cdn.scayle.cloud/images/d6415aec7046065b8bd7017c04c16335.jpg?brightness=1&width=584&height=779&quality=70&bg=ffffff",
     price: 866500,
@@ -61,8 +60,7 @@ export const products: Product[] = [
     id: "01K2CPAZGVZ15RJMPYNJ0QX88B",
     slug: "mu-x-adidas-futur-icons-black",
     name: "MU x Adidas Futur Icons Black",
-    description:
-      "Casual MU shirt for everyday wear. Simple, comfy, and full of pride",
+    description: "Casual MU shirt for everyday wear.",
     imageUrl:
       "https://mufc-live.cdn.scayle.cloud/images/499261d4bd317b576a13d2d1fcf20ce5.jpg?brightness=1&width=584&height=779&quality=70&bg=ffffff",
     price: 752500,
@@ -73,7 +71,7 @@ export const products: Product[] = [
     id: "01K2CPAZMCG5532ZQJZKVQ5YYR",
     slug: "wayne-rooney-teenage-kicks-book",
     name: "Wayne Rooney, Teenage Kicks Book",
-    description: "Manchester united player wayne rooney book",
+    description: "Manchester United player Wayne Rooney book",
     imageUrl:
       "https://mufc-live.cdn.scayle.cloud/images/eda92dc66626b0b3fae93b64c8118abb.jpg?brightness=1&width=922&height=1230&quality=70&bg=ffffff",
     price: 456100,
