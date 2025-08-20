@@ -1,5 +1,4 @@
 import type { Route } from "./+types/home";
-import { Link } from "react-router-dom";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -18,25 +17,8 @@ export async function clientLoader() {
   return products;
 }
 
-export default function Home({ loaderData }: Route.ComponentProps) {
+export default function HomeRoute({ loaderData }: Route.ComponentProps) {
   const products = loaderData;
-
-  // return (
-  //   <div className="min-h-screen flex flex-col bg-[#7f3b3b] text-black">
-  //     {/* Header */}
-  //     <header className="flex justify-between items-center p-4">
-  //       <div>
-  //         <h1 className="text-2xl font-bold">GLORY STORE</h1>
-  //       </div>
-  //       <nav className="flex gap-4">
-  //         <Link to="/" className="hover:underline">
-  //           Home
-  //         </Link>
-  //         <Link to="/login" className="hover:underline">
-  //           Login
-  //         </Link>
-  //       </nav>
-  //     </header>
 
   //     <ul>
   //       {products.map((product: any) => {
@@ -46,22 +28,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   //   </div>
   // );
   return (
-    <div className="min-h-screen flex flex-col bg-[#7f3b3b] text-white">
-      {/* Header */}
-      <header className="flex justify-between items-center p-4">
-        <div>
-          <h1 className="text-2xl font-bold">GLORY STORE</h1>
-        </div>
-        <nav className="flex gap-4">
-          <Link to="/" className="hover:underline">
-            Home
-          </Link>
-          <Link to="/login" className="hover:underline">
-            Login
-          </Link>
-        </nav>
-      </header>
-
+    <>
       {/* Main Content */}
       <main className="p-6">
         <h2 className="text-lg mb-6">Store for MAN UTD apparel</h2>
@@ -91,6 +58,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           ))}
         </div>
       </main>
-    </div>
+    </>
   );
 }
