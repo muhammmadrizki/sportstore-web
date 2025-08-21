@@ -6,7 +6,6 @@ export default function LayoutMain() {
   return (
     <div>
       <Header />
-      <h1>Dashboard</h1>
       {/* will either be home.tsx or settings.tsx */}
       <Outlet />
       <Footer />
