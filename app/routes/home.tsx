@@ -13,9 +13,8 @@ export async function clientLoader() {
     `${import.meta.env.VITE_BACKEND_API_URL}/products`
   );
   const products = await response.json();
-  console.log({ products });
 
-  return products;
+  return { products };
 }
 
 // export default function HomeRoute({ loaderData }: Route.ComponentProps) {
@@ -61,7 +60,7 @@ export async function clientLoader() {
 //     </>
 //   );
 export default function HomeRoute({ loaderData }: Route.ComponentProps) {
-  const products = loaderData;
+  const { products } = loaderData;
   return (
     <main className="p-6">
       {/* <ProductList products={products} /> */}
