@@ -1,5 +1,5 @@
 import type { Route } from "./+types/home";
-import { ProductList } from "../components/productList";
+import { ProductsGrid } from "~/modules/product/grid";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -64,7 +64,8 @@ export default function HomeRoute({ loaderData }: Route.ComponentProps) {
   const products = loaderData;
   return (
     <main className="p-6">
-      <ProductList products={products} />
+      {/* <ProductList products={products} /> */}
+      <ProductsGrid products={products} />
     </main>
   );
 }

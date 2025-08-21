@@ -1,6 +1,6 @@
 import type { Route } from "./+types/products";
 import type { Product } from "~/modules/product/type";
-import { ProductCard } from "../components/productCard";
+import { ProductsGrid } from "~/modules/product/grid";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -24,13 +24,14 @@ export async function clientLoader() {
 export default function ProductsRoute({ loaderData }: Route.ComponentProps) {
   const { products } = loaderData as unknown as { products: Product[] };
   return (
-    <div className="p-6">
-      <h2 className="text-lg mb-6">Products of Sport Store</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-    </div>
+    // <div className="p-6">
+    //   <h2 className="text-lg mb-6">Products of Sport Store</h2>
+    //   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    //     {products.map((product) => (
+    //       <ProductCard key={product.id} product={product} />
+    //     ))}
+    //   </div>
+    // </div>
+    <ProductsGrid products={products} />
   );
 }
