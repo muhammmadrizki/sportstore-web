@@ -1,36 +1,29 @@
-import type { Route } from "./+types/products";
 import type { Product } from "~/modules/product/type";
-import { ProductCard } from "../components/productCard";
+import type { Route } from "./+types/products-slug";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Product by Slug of Sport Store" },
-    {
-      name: "description",
-      content: "Merchandise Sport Store of Manchester United!",
-    },
+    { title: "(Product Name) of Sport Store" },
+    // { name: "description", content: "Merchandise of Manchester United" },
   ];
 }
 
-export async function clientLoader() {
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const response = await fetch(
-    `${import.meta.env.VITE_BACKEND_API_URL}/products`
+    `${import.meta.env.VITE_BACKEND_API_URL}/products/${params.slug}`
   );
-  const products: Product[] = await response.json();
-
-  return { products };
+  const product: Product = await response.json();
+  return { product };
 }
 
-export default function ProductsRoute({ loaderData }: Route.ComponentProps) {
-  const { products } = loaderData as unknown as { products: Product[] };
+export default function HomeRoute({ loaderData }: Route.ComponentProps) {
+  const { product } = loaderData;
+
   return (
-    <div className="p-6">
-      <h2 className="text-lg mb-6">Products of Sport Store</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+    <div>
+      <h1>{product.name}</h1>
+      <img src={product.imageUrl} alt={product.name} />
+      <p>{product.description}</p>
     </div>
   );
 }
