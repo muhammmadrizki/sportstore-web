@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 
 export function Header() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#7f3b3b] text-white">
+    <div className=" flex flex-col bg-[#7f3b3b] text-white">
       {/* Header */}
-      <header className="flex justify-between items-center p-4">
+      <header className="flex justify-between items-center p-4 bg-[#7f3b3b] text-white">
         <div>
           <h1 className="text-2xl font-bold">GLORY STORE</h1>
         </div>
