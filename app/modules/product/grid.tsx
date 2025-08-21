@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "../../components/ui/card";
 import { Link } from "react-router-dom";
+import { formatRupiah } from "../../lib/utils";
 
 export function ProductsGrid({ products }: { products: Product[] }) {
   return (
@@ -24,7 +25,9 @@ export function ProductsGrid({ products }: { products: Product[] }) {
               </CardHeader>
               <CardContent className="pt-2">
                 <p className="text-gray-600 mb-2">{product.description}</p>
-                <p className="text-xl font-bold">${product.price.toFixed(2)}</p>
+                <p className="text-xl font-bold">
+                  {formatRupiah(product.price)}
+                </p>
               </CardContent>
             </Card>
           </Link>
