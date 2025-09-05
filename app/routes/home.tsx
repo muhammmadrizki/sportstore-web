@@ -63,6 +63,11 @@ export default function HomeRoute({ loaderData }: Route.ComponentProps) {
   const { products } = loaderData;
   return (
     <main className="p-6">
+      <section className="text-center my-8">
+        <h2 className="text-3xl font-bold">
+          Merchandise for Manchester United
+        </h2>
+      </section>
       {/* <ProductList products={products} /> */}
       <ProductsGrid products={products} />
     </main>
