@@ -1,21 +1,18 @@
-import type { Route } from "./+types/home";
-import { ProductsGrid } from "../modules/product/grid";
+import type { Route } from "./+types/dashboard";
+// import type { Route } from "../+types/register";
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "Glory Store" },
-    { name: "description", content: "Manchester United Meerchandise Store!" },
-  ];
+  return [{ title: "Dashboard" }];
 }
 
-export async function clientLoader() {
-  const response = await fetch(
-    `${import.meta.env.VITE_BACKEND_API_URL}/products`
-  );
-  const products = await response.json();
+// export async function clientLoader() {
+//   const response = await fetch(
+//     `${import.meta.env.VITE_BACKEND_API_URL}/products`
+//   );
+//   const products = await response.json();
 
-  return { products };
-}
+//   return { products };
+// }
 
 // export default function HomeRoute({ loaderData }: Route.ComponentProps) {
 //   const products = loaderData;
@@ -59,17 +56,10 @@ export async function clientLoader() {
 //       </main>
 //     </>
 //   );
-export default function HomeRoute({ loaderData }: Route.ComponentProps) {
-  const { products } = loaderData;
+export default function DashboardRoute({}: Route.ComponentProps) {
   return (
-    <main className="p-6">
-      <section className="text-center my-8">
-        <h2 className="text-3xl font-bold">
-          Merchandise for Manchester United
-        </h2>
-      </section>
-      {/* <ProductList products={products} /> */}
-      <ProductsGrid products={products} />
-    </main>
+    <div>
+      <h1>Dashboard</h1>
+    </div>
   );
 }

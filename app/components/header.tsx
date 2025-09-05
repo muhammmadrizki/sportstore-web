@@ -17,8 +17,14 @@ export function Header() {
           <Link to="/products" className="hover:underline">
             Products
           </Link>
+          <Link to="/register" className="hover:underline">
+            Register
+          </Link>
           <Link to="/login" className="hover:underline">
             Login
+          </Link>
+          <Link to="/dashboard" className="hover:underline">
+            Dashboard
           </Link>
         </nav>
       </header>
