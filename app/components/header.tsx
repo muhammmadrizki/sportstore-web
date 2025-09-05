@@ -6,7 +6,9 @@ export function Header() {
       {/* Header */}
       <header className="flex justify-between items-center p-4 bg-[#7f3b3b] text-white">
         <div>
-          <h1 className="text-2xl font-bold">GLORY STORE</h1>
+          <Link to={"/"} className="hover:underline">
+            <h1 className="text-2xl font-bold">GLORY STORE</h1>
+          </Link>
         </div>
         <nav className="flex gap-4">
           <Link to="/" className="hover:underline">
