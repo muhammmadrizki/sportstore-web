@@ -1,108 +1,47 @@
-// import type { Route } from "./+types/login";
-// // import type { Route } from "../+types/register";
-
-// export function meta({}: Route.MetaArgs) {
-//   return [{ title: "Login" }];
-// }
-
-// // export async function clientLoader() {
-// //   const response = await fetch(
-// //     `${import.meta.env.VITE_BACKEND_API_URL}/products`
-// //   );
-// //   const products = await response.json();
-
-// //   return { products };
-// // }
-
-// // export default function HomeRoute({ loaderData }: Route.ComponentProps) {
-// //   const products = loaderData;
-
-// //   //     <ul>
-// //   //       {products.map((product: any) => {
-// //   //         return <li key={product.id}>{product.name}</li>;
-// //   //       })}
-// //   //     </ul>
-// //   //   </div>
-// //   // );
-// //   return (
-// //     <>
-// //       {/* Main Content */}
-// //       <main className="p-6">
-// //         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-// //           {products.map((product: any) => (
-// //             <div
-// //               key={product.id}
-// //               className="bg-white rounded-2xl shadow-md p-4 hover:shadow-lg transition"
-// //             >
-// //               <img
-// //                 src={product.imageUrl.trim()} // 👈 trim spasi
-// //                 alt={product.name}
-// //                 className="w-full h-64 object-cover rounded-xl"
-// //                 onError={(e) => {
-// //                   e.currentTarget.src =
-// //                     "https://via.placeholder.com/584x779?text=Image+Not+Available";
-// //                 }}
-// //               />
-// //               <h3 className="text-lg font-semibold mt-3">{product.name}</h3>
-// //               <p className="text-sm text-gray-600 line-clamp-2">
-// //                 {product.description}
-// //               </p>
-// //               <p className="text-red-600 font-bold mt-2">
-// //                 Rp {product.price.toLocaleString("id-ID")}
-// //               </p>
-// //             </div>
-// //           ))}
-// //         </div>
-// //       </main>
-// //     </>
-// //   );
-// export default function LoginRoute({}: Route.ComponentProps) {
-//   return (
-//     <div>
-//       <h1>Login</h1>
-//     </div>
-//   );
-// }
 import type { Route } from "./+types/login";
 import { Form, redirect } from "react-router";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
-import { commitSession, getSession } from "../sessions";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Login" }];
 }
 
-// export async function action({ request }: Route.ActionArgs) {
-//   const session = await getSession(request.headers.get("Cookie"));
-//   if (session.has("token")) {
-//     return redirect("/dashboard");
-//   }
+export async function clientAction({ request }: Route.ActionArgs) {
+  //   const session = await getSession(request.headers.get("Cookie"));
+  //   if (session.has("token")) {
+  //     return redirect("/dashboard");
+  //   }
 
-//   const formData = await request.formData();
+  const formData = await request.formData();
 
-//   const email = formData.get("email");
-//   const password = formData.get("password");
+  const email = formData.get("email");
+  const password = formData.get("password");
 
-//   const loginBody = {
-//     email,
-//     password,
-//   };
+  const loginBody = {
+    email,
+    password,
+  };
 
-//   const response = await fetch(
-//     `${import.meta.env.VITE_BACKEND_API_URL}/auth/login`,
-//     {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(loginBody),
-//     }
-//   );
-//   const token = await response.json();
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_API_URL}/auth/login`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(loginBody),
+    }
+  );
+  const result = await response.json();
+  console.log(result);
 
-//   session.set("token", token);
+  //   const token = await response.json();
 
-//   return redirect("/dashboard", {
+  //   session.set("token", token);
+
+  return redirect("/dashboard");
+}
+
 //     headers: {
 //       "Set-Cookie": await commitSession(session),
 //     },
