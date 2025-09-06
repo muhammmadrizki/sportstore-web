@@ -16,34 +16,27 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const fullName = formData.get("fullName");
   const email = formData.get("email");
   const password = formData.get("password");
-  console.log({
-    fullName,
-    email,
-    password,
-  });
-  return null;
 
   const registerBody = {
     fullName,
     email,
     password,
   };
+
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_API_URL}/auth/register`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(registerBody),
+    }
+  );
+
+  const result = await response.json();
+  console.log(result);
+
+  return redirect("/login");
 }
-
-//   const response = await fetch(
-//     `${import.meta.env.VITE_BACKEND_API_URL}/auth/register`,
-//     {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(registerBody),
-//     }
-//   );
-//   const result = await response.json();
-
-//   return redirect("/login");
-// }
 
 export default function RegisterRoute({}: Route.ComponentProps) {
   return (
