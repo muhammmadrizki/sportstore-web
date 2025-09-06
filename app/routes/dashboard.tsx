@@ -1,61 +1,21 @@
+import { getSession } from "../sessions";
 import type { Route } from "./+types/dashboard";
-// import type { Route } from "../+types/register";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Dashboard" }];
 }
 
-// export async function clientLoader() {
-//   const response = await fetch(
-//     `${import.meta.env.VITE_BACKEND_API_URL}/products`
-//   );
-//   const products = await response.json();
+export async function clientLoader({ request }: Route.ClientLoaderArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
 
-//   return { products };
-// }
+  // console.log(session);
 
-// export default function HomeRoute({ loaderData }: Route.ComponentProps) {
-//   const products = loaderData;
+  const token = session.get("token");
+  console.log({ token });
 
-//   //     <ul>
-//   //       {products.map((product: any) => {
-//   //         return <li key={product.id}>{product.name}</li>;
-//   //       })}
-//   //     </ul>
-//   //   </div>
-//   // );
-//   return (
-//     <>
-//       {/* Main Content */}
-//       <main className="p-6">
-//         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-//           {products.map((product: any) => (
-//             <div
-//               key={product.id}
-//               className="bg-white rounded-2xl shadow-md p-4 hover:shadow-lg transition"
-//             >
-//               <img
-//                 src={product.imageUrl.trim()} // 👈 trim spasi
-//                 alt={product.name}
-//                 className="w-full h-64 object-cover rounded-xl"
-//                 onError={(e) => {
-//                   e.currentTarget.src =
-//                     "https://via.placeholder.com/584x779?text=Image+Not+Available";
-//                 }}
-//               />
-//               <h3 className="text-lg font-semibold mt-3">{product.name}</h3>
-//               <p className="text-sm text-gray-600 line-clamp-2">
-//                 {product.description}
-//               </p>
-//               <p className="text-red-600 font-bold mt-2">
-//                 Rp {product.price.toLocaleString("id-ID")}
-//               </p>
-//             </div>
-//           ))}
-//         </div>
-//       </main>
-//     </>
-//   );
+  return null;
+}
+
 export default function DashboardRoute({}: Route.ComponentProps) {
   return (
     <div>

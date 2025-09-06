@@ -15,7 +15,7 @@ const { getSession, commitSession, destroySession } =
       name: "__session",
 
       httpOnly: true,
-      maxAge: 60 * 60 * 24, // 1 day
+      maxAge: 60 * 60 * 24, // 1 day //60 detik * 60 menit = 1jam * 24 = 24 jam
       path: "/",
       sameSite: "lax",
       secrets: ["s3cret1"],
