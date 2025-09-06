@@ -1,18 +1,19 @@
 import type { Route } from "./+types/login";
-import { Form, redirect } from "react-router";
+import { Form, redirect, type Session } from "react-router";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
+import { getSession, commitSession } from "../sessions";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Login" }];
 }
 
-export async function clientAction({ request }: Route.ActionArgs) {
-  //   const session = await getSession(request.headers.get("Cookie"));
-  //   if (session.has("token")) {
-  //     return redirect("/dashboard");
-  //   }
+export async function action({ request }: Route.ActionArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+  if (session.has("token")) {
+    return redirect("/dashboard");
+  }
 
   const formData = await request.formData();
 
@@ -32,62 +33,16 @@ export async function clientAction({ request }: Route.ActionArgs) {
       body: JSON.stringify(loginBody),
     }
   );
-  const result = await response.json();
-  console.log(result);
+  const token = await response.json();
 
-  //   const token = await response.json();
+  session.set("token", token);
 
-  //   session.set("token", token);
-
-  return redirect("/dashboard");
+  return redirect("/dashboard", {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 }
-
-//     headers: {
-//       "Set-Cookie": await commitSession(session),
-//     },
-//   });
-// }
-
-// export default function LoginRoute({}: Route.ComponentProps) {
-//   return (
-//     <div className="mx-auto w-full max-w-md space-y-6">
-//       <header className="space-y-1">
-//         <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
-//         <p className="text-sm text-muted-foreground">
-//           Continue to your account
-//         </p>
-//       </header>
-
-//       <Form method="POST" className="space-y-4">
-//         <div className="space-y-2">
-//           <Label htmlFor="email">Email</Label>
-//           <Input
-//             id="email"
-//             name="email"
-//             type="email"
-//             autoComplete="email"
-//             required
-//           />
-//         </div>
-
-//         <div className="space-y-2">
-//           <Label htmlFor="password">Password</Label>
-//           <Input
-//             id="password"
-//             name="password"
-//             type="password"
-//             autoComplete="new-password"
-//             required
-//           />
-//         </div>
-
-//         <Button type="submit" className="w-full">
-//           Login
-//         </Button>
-//       </Form>
-//     </div>
-//   );
-// }
 
 export default function LoginRoute({}: Route.ComponentProps) {
   return (
