@@ -13,6 +13,7 @@ export default [
 
     //.....
     route("register", "./routes/register.tsx"), // POST /auth/register
+    route("logout", "./routes/logout.tsx"),
     route("login", "./routes/login.tsx"), // POST /auth/login
     route("dashboard", "./routes/dashboard.tsx"), // GET /auth/me
   ]),
