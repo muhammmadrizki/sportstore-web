@@ -123,7 +123,7 @@ import { Input } from "../components/ui/input";
 import { formatRupiah } from "../lib/utils";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "(Product Name) - Sport Store" }];
+  return [{ title: "(Product Name) - Glory Store" }];
 }
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
