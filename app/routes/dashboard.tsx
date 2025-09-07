@@ -1,4 +1,4 @@
-import { Card } from "~/components/ui/card";
+import { Card } from "../components/ui/card";
 import { getSession } from "../sessions";
 import type { Route } from "./+types/dashboard";
 import type { UserAuthMe } from "~/modules/user/type";
