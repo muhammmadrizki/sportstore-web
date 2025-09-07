@@ -23,6 +23,9 @@ export function Header() {
           <Link to="/login" className="hover:underline">
             Login
           </Link>
+          <Link to="/logout" className="hover:underline">
+            Logout
+          </Link>
           <Link to="/dashboard" className="hover:underline">
             Dashboard
           </Link>

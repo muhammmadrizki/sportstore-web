@@ -1,7 +1,7 @@
 import { Card } from "../components/ui/card";
 import { getSession } from "../sessions";
 import type { Route } from "./+types/dashboard";
-import type { UserAuthMe } from "~/modules/user/type";
+import type { UserAuthMe } from "../modules/user/type";
 import { redirect } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
