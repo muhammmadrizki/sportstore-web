@@ -5,11 +5,16 @@ import type { UserAuthMe } from "~/modules/user/type";
 import { getSession } from "../sessions";
 import type { Route } from "./+types/layout-main";
 
+// const navigationLinks = [
+//   { to: "/", text: "Home" },
+//   { to: "/products", text: "Products" },
+//   { to: "/register", text: "Register" },
+//   { to: "/login", text: "Login" },
+//   { to: "/dashboard", text: "Dashboard" },
+// ];
 const navigationLinks = [
   { to: "/", text: "Home" },
   { to: "/products", text: "Products" },
-  { to: "/register", text: "Register" },
-  { to: "/login", text: "Login" },
   { to: "/dashboard", text: "Dashboard" },
 ];
 
@@ -29,7 +34,8 @@ export default function LayoutMain({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
+      {/* <Header /> */}
+      <Header navigationLinks={navigationLinks} user={user} />
       {/* will either be home.tsx or settings.tsx */}
       <main className="flex-[1]">
         <Outlet />
