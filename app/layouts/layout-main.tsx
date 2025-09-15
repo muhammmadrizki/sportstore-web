@@ -34,8 +34,8 @@ export default function LayoutMain({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* <Header /> */}
-      <Header navigationLinks={navigationLinks} user={user} />
+      <Header />
+      {/* <Header navigationLinks={navigationLinks} user={user} /> */}
       {/* will either be home.tsx or settings.tsx */}
       <main className="flex-[1]">
         <Outlet />
