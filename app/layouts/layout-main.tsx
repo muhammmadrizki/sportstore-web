@@ -8,6 +8,7 @@ const navigationLinksDefault = [
   { to: "/products", text: "Products" },
   { to: "/register", text: "Register" },
   { to: "/login", text: "Login" },
+  { to: "/cart", text: "Cart" },
   { to: "/dashboard", text: "Dashboard" },
 ];
 
@@ -15,6 +16,7 @@ const navigationLinksAuth = [
   { to: "/", text: "Home" },
   { to: "/products", text: "Products" },
   { to: "/logout", text: "Logout" },
+  { to: "/cart", text: "Cart" },
   { to: "/dashboard", text: "Dashboard" },
 ];
 
