@@ -103,7 +103,7 @@ export default function ProductSlugRoute({ loaderData }: Route.ComponentProps) {
               ${product.price.toFixed(2)}
             </div> */}
             <div className="text-3xl font-semibold text-red-600">
-              {formatRupiah(product.price)}
+              {formatRupiah(product.price * quantity)}
             </div>
           </header>
 
