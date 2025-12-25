@@ -5,8 +5,8 @@ import { Form, redirect } from "react-router";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { formatRupiah } from "../lib/utils";
-import type { AddCartItem } from "~/modules/cart/schema";
-import { getSession, destroySession } from "~/sessions";
+import type { AddCartItem } from "../modules/cart/schema";
+import { getSession, destroySession } from "../sessions";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "(Product Name) - Glory Store" }];
