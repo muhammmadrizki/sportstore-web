@@ -36,6 +36,34 @@ export async function loader({ request }: Route.ClientLoaderArgs) {
   const cart: Cart = await response.json();
   return { cart };
 }
+// export async function action({ request }: Route.ActionArgs) {
+//   const session = await getSession(request.headers.get("Cookie"));
+
+//   if (!session.has("token")) {
+//     return redirect("/login");
+//   }
+
+//   const token = session.get("token");
+//   const formData = await request.formData();
+
+//   const cartItemId = formData.get("cartItemId");
+
+//   if (!cartItemId || typeof cartItemId !== "string") {
+//     throw new Error("Invalid cart item id");
+//   }
+
+//   await fetch(
+//     `${import.meta.env.VITE_BACKEND_API_URL}/cart/items/${cartItemId}`,
+//     {
+//       method: "DELETE",
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     },
+//   );
+
+//   return null;
+// }
 export async function action({ request }: Route.ActionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
 
@@ -46,38 +74,48 @@ export async function action({ request }: Route.ActionArgs) {
   const token = session.get("token");
   const formData = await request.formData();
 
+  const intent = formData.get("intent");
   const cartItemId = formData.get("cartItemId");
 
   if (!cartItemId || typeof cartItemId !== "string") {
     throw new Error("Invalid cart item id");
   }
 
-  await fetch(
-    `${import.meta.env.VITE_BACKEND_API_URL}/cart/items/${cartItemId}`,
-    {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
+  // REMOVE ITEM
+  if (intent === "remove") {
+    await fetch(
+      `${import.meta.env.VITE_BACKEND_API_URL}/cart/items/${cartItemId}`,
+      {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
       },
-    }
-  );
+    );
+
+    return null;
+  }
+
+  // INCREMENT / DECREMENT
+  if (intent === "increment" || intent === "decrement") {
+    await fetch(
+      `${import.meta.env.VITE_BACKEND_API_URL}/cart/items/${cartItemId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          action: intent,
+        }),
+      },
+    );
+
+    return null;
+  }
 
   return null;
 }
 
-// export default function CartRoute({ loaderData }: Route.ComponentProps) {
-//   return (
-//     <div className="flex flex-col items-center">
-//       <div className="w-full max-w-xs">
-//         <h1>Shopping Cart</h1>
-//         <pre>{JSON.stringify(loaderData, null, 2)}</pre>
-//         {/* <Card>
-//           {/* <h2>{user.fullName}</h2>
-//           <p>{user.email}</p> */}
-//         {/* </Card> */} *
-//       </div>
-//     </div>
-//   );
 export default function CartRoute({ loaderData }: Route.ComponentProps) {
   const { cart } = loaderData;
 
@@ -91,7 +129,7 @@ export default function CartRoute({ loaderData }: Route.ComponentProps) {
 
   const total = cart.items.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
-    0
+    0,
   );
 
   return (
@@ -151,12 +189,38 @@ export default function CartRoute({ loaderData }: Route.ComponentProps) {
                 </p>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">Qty: {item.quantity}</span>
+                  <div className="flex items-center gap-2">
+                    {/* DECREMENT */}
+                    <Form method="post">
+                      <input type="hidden" name="cartItemId" value={item.id} />
+                      <input type="hidden" name="intent" value="decrement" />
+                      <button
+                        type="submit"
+                        className="rounded bg-gray-200 px-2 py-1 hover:bg-gray-300"
+                      >
+                        -
+                      </button>
+                    </Form>
+
+                    <span className="w-8 text-center">{item.quantity}</span>
+
+                    {/* INCREMENT */}
+                    <Form method="post">
+                      <input type="hidden" name="cartItemId" value={item.id} />
+                      <input type="hidden" name="intent" value="increment" />
+                      <button
+                        type="submit"
+                        className="rounded bg-gray-200 px-2 py-1 hover:bg-gray-300"
+                      >
+                        +
+                      </button>
+                    </Form>
+                  </div>
 
                   <span className="font-medium text-red-600">
                     Rp{" "}
                     {(item.product.price * item.quantity).toLocaleString(
-                      "id-ID"
+                      "id-ID",
                     )}
                   </span>
                 </div>
@@ -164,9 +228,10 @@ export default function CartRoute({ loaderData }: Route.ComponentProps) {
                 {/* REMOVE BUTTON */}
                 <Form method="post">
                   <input type="hidden" name="cartItemId" value={item.id} />
+                  <input type="hidden" name="intent" value="remove" />
                   <button
                     type="submit"
-                    className="mt-2 w-fit text-sm text-red-600 hover:underline"
+                    className="mt-2 inline-flex items-center rounded-md bg-red-100 px-3 py-1.5 text-sm font-medium text-red-700 transition hover:bg-red-200"
                   >
                     Remove
                   </button>
