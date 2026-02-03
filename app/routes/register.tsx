@@ -161,7 +161,7 @@ export default function RegisterRoute() {
 
             <Button
               type="submit"
-              className="w-full bg-black text-white hover:bg-gray-800"
+              className="w-full bg-red-600 text-white hover:bg-gray-800"
             >
               Create Account
             </Button>
@@ -169,8 +169,8 @@ export default function RegisterRoute() {
 
           <p className="text-center text-sm text-gray-600 mt-4">
             Already have an account?{" "}
-            <a href="/signin" className="text-black hover:underline">
-              Sign in
+            <a href="/login" className="text-red-600 hover:underline">
+              Login
             </a>
           </p>
         </CardContent>

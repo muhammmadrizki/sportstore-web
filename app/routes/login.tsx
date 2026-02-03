@@ -1,13 +1,24 @@
 import type { Route } from "./+types/login";
-import { Form, redirect, type Session } from "react-router";
+import { useState } from "react";
+import { Form, redirect } from "react-router";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { getSession, commitSession } from "../sessions";
+import { z } from "zod";
+import { Eye, EyeOff } from "lucide-react";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Login" }];
 }
+
+//login validation with zod
+export const loginValidation = () => {
+  return z.object({
+    email: z.email("Invalid Email Format"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+  });
+};
 
 export async function action({ request }: Route.ActionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -25,26 +36,41 @@ export async function action({ request }: Route.ActionArgs) {
     password,
   };
 
-  const response = await fetch(
-    `${import.meta.env.VITE_BACKEND_API_URL}/auth/login`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(loginBody),
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_API_URL}/auth/login`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(loginBody),
+      },
+    );
+
+    if (response.status !== 200) {
+      const error = await response.json();
+      console.log("Login error:", error);
+      return { error: error.message || "Login failed" };
     }
-  );
-  const token = await response.json();
 
-  session.set("token", token);
+    const token = await response.json();
 
-  return redirect("/dashboard", {
-    headers: {
-      "Set-Cookie": await commitSession(session),
-    },
-  });
+    session.set("token", token);
+
+    return redirect("/dashboard", {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    });
+  } catch (error) {
+    console.error("Login request failed:", error);
+    return {
+      error: "Network error. Please check your connection and try again.",
+    };
+  }
 }
 
-export default function LoginRoute({}: Route.ComponentProps) {
+export default function LoginRoute({ actionData }: Route.ComponentProps) {
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 p-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-8 transition-all duration-300 hover:shadow-2xl">
@@ -78,30 +104,46 @@ export default function LoginRoute({}: Route.ComponentProps) {
           </div>
 
           {/* Password Field */}
+
           <div className="space-y-2">
-            <Label
+            <label
               htmlFor="password"
               className="text-sm font-medium text-gray-700 block"
             >
-              Password
-            </Label>
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              placeholder="••••••••"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
-            />
+              password
+            </label>
+            <div className="relative">
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                required
+                placeholder="••••••••"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
           </div>
-
+          {/* Error Message */}
+          {actionData?.error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+              <p className="text-sm font-medium">{actionData.error}</p>
+            </div>
+          )}
           {/* Submit Button */}
           <Button
             type="submit"
             className="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
           >
-            Login
+            Sign In
           </Button>
         </Form>
 
