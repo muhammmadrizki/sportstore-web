@@ -18,6 +18,8 @@ export async function loader({ request }: Route.ClientLoaderArgs) {
   }
   const token = session.get("token");
   console.info("dashboard:token", token);
+  //ini
+  console.log("Token in cart loader:", token);
 
   const response = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/cart`, {
     method: "GET",
@@ -72,6 +74,8 @@ export async function action({ request }: Route.ActionArgs) {
   }
 
   const token = session.get("token");
+  //ini
+  console.log("Token in cart action:", token);
   const formData = await request.formData();
 
   const intent = formData.get("intent");

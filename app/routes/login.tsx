@@ -52,9 +52,13 @@ export async function action({ request }: Route.ActionArgs) {
       return { error: error.message || "Login failed" };
     }
 
-    const token = await response.json();
+    // const token = await response.json();
 
-    session.set("token", token);
+    // session.set("token", token);
+    const data = await response.json();
+    const tokenValue = data.token; // Extract string token-nya
+    session.set("token", tokenValue);
+    console.log(tokenValue);
 
     return redirect("/dashboard", {
       headers: {
