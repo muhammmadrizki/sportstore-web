@@ -26,6 +26,7 @@ export async function loader({ request }: Route.ClientLoaderArgs) {
   const user: UserAuthMe = await response.json();
   return { user };
 }
+console.log("API URL:", import.meta.env.VITE_BACKEND_API_URL);
 
 export default function DashboardRoute({ loaderData }: Route.ComponentProps) {
   const { user } = loaderData;

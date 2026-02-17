@@ -213,6 +213,7 @@ export async function action({ request }: Route.ActionArgs) {
         body: JSON.stringify(loginBody),
       },
     );
+    console.log("API URL:", import.meta.env.VITE_BACKEND_API_URL);
 
     if (response.status !== 200) {
       const error = await response.json();
