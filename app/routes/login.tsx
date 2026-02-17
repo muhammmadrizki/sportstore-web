@@ -166,13 +166,13 @@
 //   );
 // }
 
+//
 import type { Route } from "./+types/login";
 import { useState } from "react";
 import { Form, redirect } from "react-router";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
-import { getSession, commitSession } from "../sessions";
 import { z } from "zod";
 import { Eye, EyeOff } from "lucide-react";
 
@@ -180,7 +180,7 @@ export function meta({}: Route.MetaArgs) {
   return [{ title: "Login" }];
 }
 
-//login validation with zod
+// login validation with zod
 export const loginValidation = () => {
   return z.object({
     email: z.email("Invalid Email Format"),
@@ -189,20 +189,10 @@ export const loginValidation = () => {
 };
 
 export async function action({ request }: Route.ActionArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  if (session.has("token")) {
-    return redirect("/dashboard");
-  }
-
   const formData = await request.formData();
 
   const email = formData.get("email");
   const password = formData.get("password");
-
-  const loginBody = {
-    email,
-    password,
-  };
 
   try {
     const response = await fetch(
@@ -210,9 +200,11 @@ export async function action({ request }: Route.ActionArgs) {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(loginBody),
+        body: JSON.stringify({ email, password }),
+        credentials: "include", // 🔥 WAJIB
       },
     );
+
     console.log("API URL:", import.meta.env.VITE_BACKEND_API_URL);
 
     if (response.status !== 200) {
@@ -220,22 +212,12 @@ export async function action({ request }: Route.ActionArgs) {
       return { error: error.message || "Login failed" };
     }
 
-    // const token = await response.json();
+    // ❌ TIDAK PERLU AMBIL TOKEN
+    // ❌ TIDAK PERLU SESSION
 
-    // session.set("token", token);
-    //TAMBAHAN INI
-    const data = await response.json();
-    const token = data.token;
+    // cookie sudah di-set oleh backend
 
-    session.set("token", token);
-    //TAMBAH INI
-    console.log("SET TOKEN:", data.token);
-
-    return redirect("/dashboard", {
-      headers: {
-        "Set-Cookie": await commitSession(session),
-      },
-    });
+    return redirect("/dashboard");
   } catch (error) {
     console.error("Login request failed:", error);
     return {
@@ -244,13 +226,12 @@ export async function action({ request }: Route.ActionArgs) {
   }
 }
 
-export default function logInRoute({ actionData }: Route.ComponentProps) {
+export default function LoginRoute({ actionData }: Route.ComponentProps) {
   const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 p-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-8 transition-all duration-300 hover:shadow-2xl">
-        {/* Logo */}
-        <div className="flex gap-2 justify-center mb-6"></div>
         {/* Title */}
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-extrabold text-gray-900">
@@ -261,43 +242,28 @@ export default function logInRoute({ actionData }: Route.ComponentProps) {
 
         {/* Form */}
         <Form method="POST" className="space-y-6">
-          {/* Email Field */}
+          {/* Email */}
           <div className="space-y-2">
-            <Label
-              htmlFor="email"
-              className="text-sm font-medium text-gray-700 block"
-            >
-              Email Address
-            </Label>
+            <Label htmlFor="email">Email Address</Label>
             <Input
               id="email"
               name="email"
               type="email"
-              autoComplete="email"
               required
               placeholder="you@example.com"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
             />
           </div>
 
-          {/* Password Field */}
-
+          {/* Password */}
           <div className="space-y-2">
-            <label
-              htmlFor="password"
-              className="text-sm font-medium text-gray-700 block"
-            >
-              password
-            </label>
+            <Label htmlFor="password">Password</Label>
             <div className="relative">
-              <input
+              <Input
                 id="password"
                 name="password"
                 type={showPassword ? "text" : "password"}
-                autoComplete="current-password"
                 required
                 placeholder="••••••••"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
               />
               <button
                 type="button"
@@ -309,28 +275,24 @@ export default function logInRoute({ actionData }: Route.ComponentProps) {
               </button>
             </div>
           </div>
-          {/* Error Message */}
+
+          {/* Error */}
           {actionData?.error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
               <p className="text-sm font-medium">{actionData.error}</p>
             </div>
           )}
-          {/* Submit Button */}
-          <Button
-            type="submit"
-            className="w-full py-3 bg-black hover:bg-gray-900 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
-          >
+
+          {/* Button */}
+          <Button type="submit" className="w-full">
             Login
           </Button>
         </Form>
 
-        {/* Footer Link */}
+        {/* Footer */}
         <div className="text-center text-sm text-gray-600 mt-4">
           Don’t have an account?{" "}
-          <a
-            href="/register"
-            className="text-black-600 hover:underline font-medium"
-          >
+          <a href="/register" className="hover:underline font-medium">
             Register here
           </a>
         </div>
