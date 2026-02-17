@@ -219,9 +219,16 @@ export async function action({ request }: Route.ActionArgs) {
       return { error: error.message || "Login failed" };
     }
 
-    const token = await response.json();
+    // const token = await response.json();
+
+    // session.set("token", token);
+    //TAMBAHAN INI
+    const data = await response.json();
+    const token = data.token;
 
     session.set("token", token);
+    //TAMBAH INI
+    console.log("SET TOKEN:", data.token);
 
     return redirect("/dashboard", {
       headers: {
