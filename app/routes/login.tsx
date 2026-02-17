@@ -243,7 +243,7 @@ export async function action({ request }: Route.ActionArgs) {
   }
 }
 
-export default function SignInRoute({ actionData }: Route.ComponentProps) {
+export default function logInRoute({ actionData }: Route.ComponentProps) {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 p-4">
@@ -319,7 +319,7 @@ export default function SignInRoute({ actionData }: Route.ComponentProps) {
             type="submit"
             className="w-full py-3 bg-black hover:bg-gray-900 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
           >
-            Sign In
+            Login
           </Button>
         </Form>
 
