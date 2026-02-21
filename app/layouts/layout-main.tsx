@@ -26,7 +26,7 @@ export async function loader({ request }: Route.ClientLoaderArgs) {
 
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_API_URL}/auth/me`,
-    { headers: { Authorization: `Bearer ${token}` } }
+    { headers: { Authorization: `Bearer ${token}` } },
   );
   const user: UserAuthMe = await response.json();
   const isAuthenticated = token ? true : false;
@@ -43,7 +43,7 @@ export default function LayoutMain({ loaderData }: Route.ComponentProps) {
     <>
       <header className="flex justify-between items-center p-4 bg-[#7f3b3b] text-white">
         <Link to="/" className="hover:underline font-bold text-2xl">
-          GLORY STORE
+          SportStore
         </Link>
 
         {/* Navigation Links */}
